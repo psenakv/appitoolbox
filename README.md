@@ -1,9 +1,9 @@
 A server app built using [Shelf](https://pub.dev/packages/shelf),
 configured to enable running with [Docker](https://www.docker.com/).
 
-This sample code handles HTTP GET requests to `/` and `/echo/<message>`
+This is simple server app made as MVP to make easier developing mobile apps that comunicate with external REST API. It will enable logging all requests with specific headers (eg. debug headers), and at the end modify requests to be able to keep up to date with APIs without having to upgrade the app (eg. in the situation that someone breaks API you're using).
 
-# Running the sample
+# Running the app
 
 ## Running with the Dart SDK
 
