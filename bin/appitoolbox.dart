@@ -23,4 +23,11 @@ void main(List<String> args) async {
   final server = await serve(_handler, ip, port);
   dotenv.load();
   print('Server listening on port ${server.port}');
+
+  ProcessSignal.SIGINT.watch().listen((ProcessSignal signal) {
+    print("\nStopping server...");
+    server.close();
+    print("Exiting...");
+    exit(0);
+  });
 }

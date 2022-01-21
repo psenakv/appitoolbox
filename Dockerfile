@@ -16,6 +16,8 @@ FROM scratch
 COPY --from=build /runtime/ /
 COPY --from=build /app/bin/server /app/bin/
 
+STOPSIGNAL SIGINT
+
 # Start server.
 EXPOSE 8080
 CMD ["/app/bin/server"]
