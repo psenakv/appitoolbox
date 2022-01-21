@@ -40,15 +40,11 @@ Server listening on port 8080
 And then from a second terminal:
 
 ```text
-$ curl http://0.0.0.0:8080
-Hello, World!
-$ curl http://0.0.0.0:8080/echo/I_love_Dart
-I_love_Dart
+$ curl http://localhost:8080/apihandler/dummy.restapiexample.com/api/v1/employees
 ```
 
 You should see the logging printed in the first terminal:
 
 ```text
-2021-05-06T15:47:04.620417  0:00:00.000158 GET     [200] /
-2021-05-06T15:47:08.392928  0:00:00.001216 GET     [200] /echo/I_love_Dart
+2022-01-21T22:22:51.274950  0:00:00.962764 GET     [200] /apihandler/dummy.restapiexample.com/api/v1/employees
 ```
