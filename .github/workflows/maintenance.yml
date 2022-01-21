@@ -9,7 +9,7 @@ on:
     branches: [ main ]
 
 jobs:
-  flutter-update:
+  dart-pub-update:
     runs-on: ubuntu-latest
 
     steps:
