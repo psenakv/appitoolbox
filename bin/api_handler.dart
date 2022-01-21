@@ -5,7 +5,6 @@ import 'package:dotenv/dotenv.dart' as dotenv;
 
 class ApiHandler {
   Future<Response> _universalGetHandler(Request request) async {
-    dotenv.load();
     if (request.headers['X-AppiToolbox-ApiKey'] == null) {
       return Response.forbidden(
           'No API Key provided. Use header X-AppiToolbox-ApiKey');

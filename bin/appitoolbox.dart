@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart';
 import 'package:shelf_router/shelf_router.dart';
+import 'package:dotenv/dotenv.dart' as dotenv;
 
 import 'api_handler.dart';
 
@@ -20,5 +21,6 @@ void main(List<String> args) async {
   final _handler = Pipeline().addMiddleware(logRequests()).addHandler(_router);
   final port = int.parse(Platform.environment['PORT'] ?? '8080');
   final server = await serve(_handler, ip, port);
+  dotenv.load();
   print('Server listening on port ${server.port}');
 }
