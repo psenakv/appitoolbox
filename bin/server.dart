@@ -24,11 +24,19 @@ Future<Response> _universalGetHandler(Request request) async {
   Map<String, String> headers = Map.from(request.headers);
   headers.remove("host");
   headers.addAll({
-    "X-AppiToolbox-Origin": "Origin Unknown",
+    "X-AppiToolbox-Original-User-Agent": headers["User-Agent"] ?? "Unknown",
     "X-AppiToolbox-Info": "Sent from AppiToolbox",
   });
+  headers["User-Agent"] = "AppiToolbox";
   http.Response response = await http.get(url, headers: headers);
-  return Response(response.statusCode, body: response.body, headers: headers);
+
+  Map<String, String> responseHeaders = response.headers;
+  responseHeaders.addAll({
+    "X-AppiToolbox-Info": "Received from AppiToolbox",
+  });
+
+  return Response(response.statusCode,
+      body: response.body, headers: responseHeaders);
 }
 
 Future<Response> _universalPostHandler(Request request) async {
@@ -40,9 +48,10 @@ Future<Response> _universalPostHandler(Request request) async {
   Map<String, String> headers = Map.from(request.headers);
   headers.remove("host");
   headers.addAll({
-    "X-AppiToolbox-Origin": "Origin Unknown",
+    "X-AppiToolbox-Original-User-Agent": headers["User-Agent"] ?? "Unknown",
     "X-AppiToolbox-Info": "Sent from AppiToolbox",
   });
+  headers["User-Agent"] = "AppiToolbox";
   String body = await request.readAsString();
   http.Response response = await http.post(
     url,
@@ -50,8 +59,13 @@ Future<Response> _universalPostHandler(Request request) async {
     body: body,
   );
 
+  Map<String, String> responseHeaders = response.headers;
+  responseHeaders.addAll({
+    "X-AppiToolbox-Info": "Received from AppiToolbox",
+  });
+
   return Response(response.statusCode,
-      body: response.body, headers: response.headers);
+      body: response.body, headers: responseHeaders);
 }
 
 void main(List<String> args) async {
