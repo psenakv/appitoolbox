@@ -1,9 +1,18 @@
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
 import 'package:http/http.dart' as http;
+import 'package:dotenv/dotenv.dart' as dotenv;
 
 class ApiHandler {
   Future<Response> _universalGetHandler(Request request) async {
+    if (request.headers['X-AppiToolbox-ApiKey'] == null) {
+      return Response.forbidden(
+          'No API Key provided. Use header X-AppiToolbox-ApiKey');
+    }
+    if (request.headers['X-AppiToolbox-ApiKey'] !=
+        dotenv.env['MASTER_API_KEY']) {
+      return Response.forbidden('Wronge value of X-AppiToolbox-ApiKey');
+    }
     if (request.params['url'] == null) {
       return Response.notFound("You must supply valid URL.");
     }
@@ -28,6 +37,15 @@ class ApiHandler {
   }
 
   Future<Response> _universalPostHandler(Request request) async {
+    if (request.headers['X-AppiToolbox-ApiKey'] == null) {
+      return Response.forbidden(
+          'No API Key provided. Use header X-AppiToolbox-ApiKey');
+    }
+    if (request.headers['X-AppiToolbox-ApiKey'] !=
+        dotenv.env['MASTER_API_KEY']) {
+      return Response.forbidden('Wronge value of X-AppiToolbox-ApiKey');
+    }
+
     if (request.params['url'] == null) {
       return Response.notFound("You must supply valid URL.");
     }
