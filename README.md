@@ -7,6 +7,8 @@ This is simple server app made as MVP to make easier developing mobile apps that
 
 ## Running the app
 
+First, copy file .env.example to .env and change value of MASTER_API_KEY to some key you will use to connect.
+
 ### Running with the Dart SDK
 
 You can run the example with the [Dart SDK](https://dart.dev/get-dart)
@@ -40,7 +42,7 @@ Server listening on port 8080
 And then from a second terminal:
 
 ```text
-$ curl http://localhost:8080/apihandler/dummy.restapiexample.com/api/v1/employees
+curl -H "X-AppiToolbox-ApiKey: SOME_API_KEY" http://localhost:8080/apihandler/dummy.restapiexample.com/api/v1/employees
 ```
 
 You should see the logging printed in the first terminal:
