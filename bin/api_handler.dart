@@ -10,6 +10,7 @@ class ApiHandler {
       return Response.notFound("You must supply valid URL.");
     }
     Uri url = Uri.parse("https://" + request.params['url']!);
+    print("got url");
     Map<String, String> headers = Map.from(request.headers);
     headers.remove("host");
     headers.addAll({
@@ -18,12 +19,12 @@ class ApiHandler {
     });
     headers["User-Agent"] = "AppiToolbox";
     http.Response response = await http.get(url, headers: headers);
-
-    Map<String, String> responseHeaders = response.headers;
+    Map<String, String> responseHeaders = Map.from(response.headers);
     responseHeaders.addAll({
       "X-AppiToolbox-Info": "Received from AppiToolbox",
     });
-
+    responseHeaders.remove("transfer-encoding");
+    responseHeaders.remove("content-encoding");
     return Response(response.statusCode,
         body: response.body, headers: responseHeaders);
   }
@@ -34,6 +35,7 @@ class ApiHandler {
     }
     Uri url = Uri.parse("https://" + request.params['url']!);
     Map<String, String> headers = Map.from(request.headers);
+    print(headers);
     headers.remove("host");
     headers.addAll({
       "X-AppiToolbox-Original-User-Agent": headers["User-Agent"] ?? "Unknown",
@@ -48,9 +50,9 @@ class ApiHandler {
     );
 
     Map<String, String> responseHeaders = response.headers;
-    responseHeaders.addAll({
-      "X-AppiToolbox-Info": "Received from AppiToolbox",
-    });
+    responseHeaders.addAll({"X-AppiToolbox-Info": "Received from AppiToolbox"});
+    responseHeaders.remove("transfer-encoding");
+    responseHeaders.remove("content-encoding");
 
     return Response(response.statusCode,
         body: response.body, headers: responseHeaders);
