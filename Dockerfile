@@ -16,6 +16,8 @@ FROM scratch
 COPY --from=build /runtime/ /
 COPY --from=build /app/bin/server /app/bin/
 
+STOPSIGNAL SIGINT
+
 # Start server.
 ENV PORT 8080
 EXPOSE ${PORT}
