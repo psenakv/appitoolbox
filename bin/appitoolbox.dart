@@ -16,8 +16,7 @@ Response _rootHandler(Request req) {
   return Response.notFound("Page not found.");
 }
 
-Middleware _jsonLogger({void Function(String message, bool isError)? logger}) =>
-    (innerHandler) {
+Middleware _jsonLogger() => (innerHandler) {
       return (request) {
         var startTime = DateTime.now();
         var watch = Stopwatch()..start();
