@@ -19,5 +19,6 @@ COPY --from=build /app/bin/server /app/bin/
 STOPSIGNAL SIGINT
 
 # Start server.
-EXPOSE 8080
+ENV PORT 8080
+EXPOSE ${PORT}
 CMD ["/app/bin/server"]
