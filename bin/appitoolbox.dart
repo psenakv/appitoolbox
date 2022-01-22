@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart';
@@ -20,7 +21,7 @@ void _jsonLogger(String message, bool error) {
     'message': message,
     'error': error,
   };
-  print(log);
+  print(jsonEncode(log));
 }
 
 void main(List<String> args) async {
