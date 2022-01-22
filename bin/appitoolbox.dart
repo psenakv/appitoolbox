@@ -15,10 +15,20 @@ Response _rootHandler(Request req) {
   return Response.notFound("Page not found.");
 }
 
+void _jsonLogger(String message, bool error) {
+  Map<String, dynamic> log = {
+    'message': message,
+    'error': error,
+  };
+  print(log);
+}
+
 void main(List<String> args) async {
   final ip = InternetAddress.anyIPv4;
 
-  final _handler = Pipeline().addMiddleware(logRequests()).addHandler(_router);
+  final _handler = Pipeline()
+      .addMiddleware(logRequests(logger: _jsonLogger))
+      .addHandler(_router);
   final port = int.parse(Platform.environment['PORT'] ?? '8080');
   final server = await serve(_handler, ip, port);
   dotenv.load();
