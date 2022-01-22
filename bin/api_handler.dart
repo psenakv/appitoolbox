@@ -11,7 +11,7 @@ class ApiHandler {
     }
     if (request.headers['X-AppiToolbox-ApiKey'] !=
         dotenv.env['MASTER_API_KEY']) {
-      return Response.forbidden('Wronge value of X-AppiToolbox-ApiKey');
+      return Response.forbidden('Wrong value of X-AppiToolbox-ApiKey');
     }
     if (request.params['url'] == null) {
       return Response.notFound("You must supply valid URL.");
@@ -43,7 +43,7 @@ class ApiHandler {
     }
     if (request.headers['X-AppiToolbox-ApiKey'] !=
         dotenv.env['MASTER_API_KEY']) {
-      return Response.forbidden('Wronge value of X-AppiToolbox-ApiKey');
+      return Response.forbidden('Wrong value of X-AppiToolbox-ApiKey');
     }
 
     if (request.params['url'] == null) {

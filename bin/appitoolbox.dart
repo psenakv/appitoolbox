@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart';
@@ -15,10 +16,48 @@ Response _rootHandler(Request req) {
   return Response.notFound("Page not found.");
 }
 
+Middleware _jsonLogger() => (innerHandler) {
+      return (request) {
+        var startTime = DateTime.now();
+        var watch = Stopwatch()..start();
+
+        return Future.sync(() => innerHandler(request)).then((response) {
+          Map<String, dynamic> log = {
+            'severity': 'INFO',
+            'time': startTime.toString(),
+            'httpRequest': {
+              'requestMethod': request.method,
+              'requestUrl': request.requestedUri.toString(),
+              'status': response.statusCode,
+              'latency': (watch.elapsed.inMicroseconds / 1000000).toString(),
+            },
+          };
+          print(jsonEncode(log));
+
+          return response;
+        }, onError: (Object error, StackTrace stackTrace) {
+          if (error is HijackException) throw error;
+
+          Map<String, dynamic> log = {
+            'severity': 'ERROR',
+            'time': startTime.toString(),
+            'httpRequest': {
+              'requestMethod': request.method,
+              'requestUrl': request.requestedUri.toString(),
+              'latency': (watch.elapsed.inMicroseconds / 1000000).toString(),
+            },
+          };
+          print(jsonEncode(log));
+
+          throw error;
+        });
+      };
+    };
+
 void main(List<String> args) async {
   final ip = InternetAddress.anyIPv4;
 
-  final _handler = Pipeline().addMiddleware(logRequests()).addHandler(_router);
+  final _handler = Pipeline().addMiddleware(_jsonLogger()).addHandler(_router);
   final port = int.parse(Platform.environment['PORT'] ?? '8080');
   final server = await serve(_handler, ip, port);
   dotenv.load();
