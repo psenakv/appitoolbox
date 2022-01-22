@@ -19,8 +19,8 @@ Response _rootHandler(Request req) {
 void _jsonLogger(String message, bool error) {
   Map<String, dynamic> log = {
     'message': message,
-    'error': error,
   };
+  if (error) log['severity'] = "ERROR";
   print(jsonEncode(log));
 }
 
