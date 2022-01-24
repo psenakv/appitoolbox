@@ -1,0 +1,12 @@
+{
+    "endpoints_blocked": [
+            {
+                "endpoint": "http://example.com/",
+                "reason": "some reason"
+            },
+            {
+                "endpoint": "http://example.com/",
+                "reason": "some reason"
+            }
+        ]
+}
