@@ -1,12 +1,16 @@
 {
-    "endpoints_blocked": [
+    "endpoints": [
             {
-                "endpoint": "http://example.com/",
-                "reason": "some reason"
+                "title": "example site",
+                "url": "https://example.com/",
+                "method" : "get",
+                "status" : "blocked"
             },
             {
-                "endpoint": "http://example.com/",
-                "reason": "some reason"
+                "title": "Create employee",
+                "url": "https://dummy.restapiexample.com/api/v1/create",
+                "method" : "post",
+                "status" : "blocked"
             }
         ]
 }

@@ -1,21 +1,12 @@
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
 import 'package:http/http.dart' as http;
-import 'package:dotenv/dotenv.dart' as dotenv;
+import 'package:shelf_plus/shelf_plus.dart';
+
+import 'api_middleware.dart';
 
 class ApiHandler {
   Future<Response> _universalGetHandler(Request request) async {
-    if (request.headers['X-AppiToolbox-ApiKey'] == null) {
-      return Response.forbidden(
-          'No API Key provided. Use header X-AppiToolbox-ApiKey');
-    }
-    if (request.headers['X-AppiToolbox-ApiKey'] !=
-        dotenv.env['MASTER_API_KEY']) {
-      return Response.forbidden('Wrong value of X-AppiToolbox-ApiKey');
-    }
-    if (request.params['url'] == null) {
-      return Response.notFound("You must supply valid URL.");
-    }
     Uri url = Uri.parse("https://" + request.params['url']!);
     print("got url");
     Map<String, String> headers = Map.from(request.headers);
@@ -37,18 +28,6 @@ class ApiHandler {
   }
 
   Future<Response> _universalPostHandler(Request request) async {
-    if (request.headers['X-AppiToolbox-ApiKey'] == null) {
-      return Response.forbidden(
-          'No API Key provided. Use header X-AppiToolbox-ApiKey');
-    }
-    if (request.headers['X-AppiToolbox-ApiKey'] !=
-        dotenv.env['MASTER_API_KEY']) {
-      return Response.forbidden('Wrong value of X-AppiToolbox-ApiKey');
-    }
-
-    if (request.params['url'] == null) {
-      return Response.notFound("You must supply valid URL.");
-    }
     Uri url = Uri.parse("https://" + request.params['url']!);
     Map<String, String> headers = Map.from(request.headers);
     print(headers);
@@ -76,12 +55,12 @@ class ApiHandler {
 
   // By exposing a [Router] for an object, it can be mounted in other routers.
   Router get router {
-    final router = Router();
+    final router = Router().plus;
 
     router
-      ..get('/<url|.*>', _universalGetHandler)
-      ..post('/<url|.*>', _universalPostHandler);
+      ..get('/<url|.*>', _universalGetHandler, use: apiMiddleware())
+      ..post('/<url|.*>', _universalPostHandler, use: apiMiddleware());
 
-    return router;
+    return router.shelfRouter;
   }
 }

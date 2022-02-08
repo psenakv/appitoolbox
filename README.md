@@ -15,7 +15,7 @@ You can run the example with the [Dart SDK](https://dart.dev/get-dart)
 like this:
 
 ```text
-$ dart run bin/server.dart
+$ dart run bin/appitoolbox.dart
 Server listening on port 8080
 ```
 
