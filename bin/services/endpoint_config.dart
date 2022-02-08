@@ -5,7 +5,7 @@ import '../model/endpoint_config.dart';
 
 class EndpointConfigService {
   List<EndpointConfig> configs = [];
-  var defaultConfig = new File('./config/example.json');
+  var defaultConfig = File('./config/example.json');
   bool loaded = false;
 
   Future init() async {
@@ -23,7 +23,7 @@ class EndpointConfigService {
 
   Status statusByUrl(String url) {
     if (!loaded) {
-      throw new Exception("You need to load config first");
+      throw Exception("You need to load config first");
     }
     for (var item in configs) {
       if (item.url == url) {
