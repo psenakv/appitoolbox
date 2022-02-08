@@ -15,6 +15,7 @@ RUN dart compile exe bin/appitoolbox.dart -o bin/server
 FROM scratch
 COPY --from=build /runtime/ /
 COPY --from=build /app/bin/server /app/bin/
+COPY .env /.env
 
 STOPSIGNAL SIGINT
 
