@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 
 import '../model/endpoint_config.dart';
+import '../model/method.dart';
+import '../model/status.dart';
 
 class EndpointConfigService {
   List<EndpointConfig> configs = [];

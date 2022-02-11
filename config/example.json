@@ -1,4 +1,13 @@
 {
+    "global" : {
+        "defaultStatus" : "blocked",
+        "defaultEndpoints" : [
+            {
+                "method" : "get",
+                "status" : "allowed"
+            }
+        ]
+    },
     "endpoints": [
             {
                 "title": "example site",

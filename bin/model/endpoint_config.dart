@@ -1,64 +1,55 @@
-enum Status { blocked, allowed, undefined }
-
-enum Method {
-  get,
-  head,
-  post,
-  put,
-  delete,
-  connect,
-  options,
-  trace,
-  patch,
-  undefined,
-  all
-}
+import 'method.dart';
+import 'status.dart';
 
 class EndpointConfig {
-  String title;
-  String url;
+  String? title;
+  String? url;
   Method method;
   Status status;
+  bool isDefault;
 
   EndpointConfig(
-      {required this.title,
-      required this.url,
-      required this.method,
-      required this.status});
+      {this.title,
+      this.url,
+      this.method = Method.undefined,
+      this.status = Status.undefined,
+      this.isDefault = false});
 
-  factory EndpointConfig.fromJson(Map<String, dynamic> json) {
+  factory EndpointConfig.fromJson(Map<String, dynamic> json,
+      {bool isDefault = false}) {
     late Status status;
     late Method method;
-    if (json['title'] == null) {
+    if (json['title'] == null && !isDefault) {
       throw Exception("Title is required");
     }
-    if (json['url'] == null) {
+    if (json['url'] == null && !isDefault) {
       throw Exception("URL is required");
     }
     if (json['method'] == null) {
-      throw Exception("Method is required");
+      method = Method.undefined;
     } else {
       try {
         method = Method.values.byName(json['method']!);
       } catch (e) {
-        throw Exception("Method is invalid");
+        method = Method.undefined;
       }
     }
     if (json['status'] == null) {
-      throw Exception("Status is required");
+      status = Status.undefined;
     } else {
       try {
         status = Status.values.byName(json['status']!);
       } catch (e) {
-        throw Exception("Status is invalid");
+        status = Status.undefined;
       }
     }
 
     return EndpointConfig(
-        title: json['title']!,
-        url: json['url']!,
+        title: json['title'],
+        url: json['url'],
         method: method,
-        status: status);
+        status: status,
+        isDefault: isDefault);
   }
 
   Status? getStatusFromString(String status) {

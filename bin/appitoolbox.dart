@@ -62,7 +62,8 @@ void main(List<String> args) async {
   final port = int.parse(Platform.environment['PORT'] ?? '8080');
   final server = await serve(_handler, ip, port);
   dotenv.load();
-  globals.configService.init();
+  globals.endpointConfigService.init();
+  globals.globalConfigService.init();
   print('Server listening on port ${server.port}');
 
   ProcessSignal.sigint.watch().listen((ProcessSignal signal) {

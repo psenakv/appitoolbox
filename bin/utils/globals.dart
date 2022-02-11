@@ -1,3 +1,5 @@
 import '../services/endpoint_config.dart';
+import '../services/global_config.dart';
 
-EndpointConfigService configService = EndpointConfigService();
+EndpointConfigService endpointConfigService = EndpointConfigService();
+GlobalConfigService globalConfigService = GlobalConfigService();

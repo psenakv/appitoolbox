@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
-import 'model/endpoint_config.dart';
+import 'model/status.dart';
 import 'utils/globals.dart' as globals;
 import 'package:dotenv/dotenv.dart' as dotenv;
 
@@ -37,10 +37,14 @@ Middleware apiMiddleware({
       }
 
       String requestedEndpoint = request.params['url']!;
+      Status status = globals.endpointConfigService
+          .endpointStatus(requestedEndpoint, request.method);
 
-      if (globals.configService
-              .endpointStatus(requestedEndpoint, request.method) ==
-          Status.blocked) {
+      if (status == Status.undefined) {
+        status = globals.globalConfigService.defaultStatus(request.method);
+      }
+
+      if (status == Status.blocked) {
         return Response.forbidden("This endpoint is blocked.");
       }
 
