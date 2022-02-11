@@ -1,6 +1,18 @@
 enum Status { blocked, allowed, undefined }
 
-enum Method { get, post, put, delete, undefined }
+enum Method {
+  get,
+  head,
+  post,
+  put,
+  delete,
+  connect,
+  options,
+  trace,
+  patch,
+  undefined,
+  all
+}
 
 class EndpointConfig {
   String title;

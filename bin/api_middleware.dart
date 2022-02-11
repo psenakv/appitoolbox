@@ -38,7 +38,8 @@ Middleware apiMiddleware({
 
       String requestedEndpoint = request.params['url']!;
 
-      if (globals.configService.statusByUrl(requestedEndpoint) ==
+      if (globals.configService
+              .endpointStatus(requestedEndpoint, request.method) ==
           Status.blocked) {
         return Response.forbidden("This endpoint is blocked.");
       }

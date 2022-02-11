@@ -21,11 +21,22 @@ class EndpointConfigService {
     return true;
   }
 
-  Status statusByUrl(String url) {
+  Status endpointStatus(String url, String methodS) {
+    Method method;
+    try {
+      method = Method.values.byName(methodS.toLowerCase());
+    } catch (e) {
+      method = Method.undefined;
+    }
     if (!loaded) {
       throw Exception("You need to load config first");
     }
     for (var item in configs) {
+      if (item.method != method &&
+          item.method != Method.undefined &&
+          item.method != Method.all) {
+        break;
+      }
       if (item.url == url) {
         return item.status;
       }
