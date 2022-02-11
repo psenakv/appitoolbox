@@ -1,9 +1,9 @@
-import 'dart:convert';
 import 'dart:io';
 
 import '../model/global_config.dart';
 import '../model/method.dart';
 import '../model/status.dart';
+import '../utils/globals.dart' as globals;
 
 class GlobalConfigService {
   late GlobalConfig globalConfig;
@@ -16,7 +16,10 @@ class GlobalConfigService {
   }
 
   Future loadConfig() async {
-    final json = jsonDecode(await defaultConfig.readAsString());
+    if (!globals.configLoaded) {
+      await globals.loadConfig();
+    }
+    final json = globals.config;
     globalConfig = GlobalConfig.fromJson(json["global"]);
   }
 

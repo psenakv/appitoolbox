@@ -1,13 +1,10 @@
-import 'dart:convert';
-import 'dart:io';
-
 import '../model/endpoint_config.dart';
 import '../model/method.dart';
 import '../model/status.dart';
+import '../utils/globals.dart' as globals;
 
 class EndpointConfigService {
   List<EndpointConfig> configs = [];
-  var defaultConfig = File('./config/example.json');
   bool loaded = false;
 
   Future init() async {
@@ -16,7 +13,10 @@ class EndpointConfigService {
   }
 
   Future _loadEndpoints() async {
-    final json = jsonDecode(await defaultConfig.readAsString());
+    if (!globals.configLoaded) {
+      await globals.loadConfig();
+    }
+    final json = globals.config;
     for (var item in json["endpoints"]) {
       configs.add(EndpointConfig.fromJson(item));
     }
