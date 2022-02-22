@@ -1,0 +1,25 @@
+{
+    "global" : {
+        "defaultStatus" : "blocked",
+        "defaultEndpoints" : [
+            {
+                "method" : "get",
+                "status" : "allowed"
+            }
+        ]
+    },
+    "endpoints": [
+            {
+                "title": "example site",
+                "url": "https://example.com/",
+                "method" : "get",
+                "status" : "blocked"
+            },
+            {
+                "title": "Create employee",
+                "url": "https://dummy.restapiexample.com/api/v1/create",
+                "method" : "post",
+                "status" : "blocked"
+            }
+        ]
+}
